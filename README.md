@@ -206,7 +206,7 @@ Route: 192.168.0.0/16 → seoul-osaka-tgw-peering
 ## 📂 프로젝트 구조
 
 ```
-aws13-k8s-proj/
+multi-region-eks-gitops/
 ├── README.md                          # 프로젝트 개요
 │
 ├── board-app/                         # 샘플 애플리케이션
@@ -216,31 +216,33 @@ aws13-k8s-proj/
 │
 ├── infra/                             # 인프라 코드
 │   ├── eksctl/
-│   │   └── cluster-c-osaka-staging.yaml  # 오사카 EKS 설정 ⭐
+│   │   └── cluster-c-osaka-staging.yaml  # 오사카 EKS 설정
 │   └── iam_policy.json                # ALB Controller IAM 정책
 │
 ├── manifests/                         # Kubernetes 매니페스트
 │   └── board-app/
 │       ├── base/                      # 공통 리소스
 │       └── overlays/
-│           └── staging/               # 오사카 Staging ⭐
+│           ├── prod/                  # 서울 Prod
+│           ├── staging/               # 오사카 Staging
+│           └── dr/                    # 도쿄 DR
 │
 ├── argocd-apps/                       # ArgoCD Application 정의
 │   ├── app-of-apps.yaml               # App-of-Apps 패턴
-│   └── board-app-staging.yaml         # Staging 앱 ⭐
+│   ├── board-app-prod.yaml            # Prod 앱
+│   ├── board-app-staging.yaml         # Staging 앱
+│   └── board-app-dr.yaml              # DR 앱
 │
 ├── scripts/                           # 자동화 스크립트
-│   └── verify-osaka-staging.sh        # 검증 스크립트 ⭐
+│   └── verify-osaka-staging.sh        # 검증 스크립트
 │
 └── docs/                              # 프로젝트 문서
     ├── 2026.04.28-EKS-구축-가이드.md
     ├── 2026.04.29-트러블슈팅-기록.md
-    ├── 오사카-Staging-클러스터-구축-보고서.md  ⭐
+    ├── 오사카-Staging-클러스터-구축-보고서.md
     ├── ArgoCD-GitOps-가이드.md
     └── AWS-TGW-멀티리전-연결-가이드.md
 ```
-
-**⭐ = 본인이 직접 작성한 파일**
 
 ---
 
@@ -345,13 +347,6 @@ kubectl exec -it <pod-name> -n board-app-eks -- curl http://localhost:8000/versi
 - ✅ PVC 바인딩 문제 해결
 - ✅ 이미지 Pull 권한 문제 해결
 - ✅ 네트워크 연결 문제 디버깅
-
----
-
-## 📞 연락처
-
-- **GitHub**: [개인 GitHub 링크]
-- **Email**: [이메일 주소]
 
 ---
 
