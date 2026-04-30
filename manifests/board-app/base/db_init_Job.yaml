@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-init
+  namespace: board-app-eks
+spec:
+  template:
+    spec:
+      containers:
+        - name: db-init
+          image: mysql:8.0
+          command:
+            - sh
+            - -c
+            - |
+              mysql -h $DB_HOST -u admin -p'$ADMIN_PASSWORD' -e "
+              CREATE DATABASE IF NOT EXISTS boarddb CHARACTER SET utf8mb4;
+              CREATE USER IF NOT EXISTS 'boarduser'@'%' IDENTIFIED BY 'boardpass';
+              GRANT ALL PRIVILEGES ON boarddb.* TO 'boarduser'@'%';
+              FLUSH PRIVILEGES;"
+          env:
+            - name: DB_HOST
+              value: "board-app-dbx.c1yckccegl7a.ap-northeast-2.rds.amazonaws.com"
+            - name: ADMIN_PASSWORD
+              value: "u9.1gpjF0ed4($5wBV|ZTPAn2gxW"
+      restartPolicy: Never

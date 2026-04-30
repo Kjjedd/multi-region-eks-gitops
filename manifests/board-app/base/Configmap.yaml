@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: board-app-config
+  namespace: board-app-eks
+data:
+  APP_REGION: "ap-northeast-2"
+  APP_ENV: "production"
+  APP_VERSION: "1"
+  LOG_LEVEL: "INFO"
+  DB_HOST: "eks-board-db.c1yckccegl7a.ap-northeast-2.rds.amazonaws.com"
+  DB_PORT: "3306"
+  DB_NAME: "boarddb"

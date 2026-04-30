@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-of-apps
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kjhappy77/aws13th-K8s-Project.git
+    targetRevision: main
+    path: argocd-apps                        # 경로 주의 ! argoCD 연동을 위한 app 저장된 경로
+  destination:
+    server: https://kubernetes.default.svc   # ArgoCD가 같은 클러스터 안에 있으니까, 이 주소로 "나 자신(로컬 클러스터)"에 배포해라
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

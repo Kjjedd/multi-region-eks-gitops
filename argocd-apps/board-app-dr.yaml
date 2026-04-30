@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: board-app-dr
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kjhappy77/aws13th-K8s-Project.git
+    targetRevision: main
+    path: manifests/board-app/overlays/dr
+  destination:
+    server: https://CE2D58DF17A9299317587A33990B8F9A.gr7.ap-northeast-1.eks.amazonaws.com  # 도쿄 DR (argocd cluster list에서 확인)
+    namespace: board-app-eks
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

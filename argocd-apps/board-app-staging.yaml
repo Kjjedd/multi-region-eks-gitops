@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: board-app-staging
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kjhappy77/aws13th-K8s-Project.git
+    targetRevision: main
+    path: manifests/board-app/overlays/staging
+  destination:
+    server: https://49F41DAC20E5D293B245B11DE12C68B9.yl4.ap-northeast-3.eks.amazonaws.com   # 오사카 staging (argocd cluster list에서 확인)
+    namespace: board-app-eks
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

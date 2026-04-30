@@ -1,0 +1,43 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases:
+  - ../../base
+images:
+  - name: 816040392320.dkr.ecr.ap-northeast-2.amazonaws.com/board-app
+    newName: 165749212250.dkr.ecr.ap-northeast-3.amazonaws.com/board-app
+    newTag: staging
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+    target:
+      kind: Deployment
+      name: board-app
+  - patch: |-
+      - op: replace
+        path: /data/APP_ENV
+        value: staging
+      - op: replace
+        path: /data/APP_REGION
+        value: osaka
+      - op: replace
+        path: /data/DB_HOST
+        value: mysql
+    target:
+      kind: ConfigMap
+      name: board-app-config
+  - patch: |-
+      - op: replace
+        path: /spec/parameters/objects
+        value: |
+          - objectName: 'arn:aws:secretsmanager:ap-northeast-3:165749212250:secret:board-app/osaka/staging/db-credentials-kMIxst'
+            objectType: secretsmanager
+            jmesPath:
+              - path: username
+                objectAlias: username
+              - path: password
+                objectAlias: password
+    target:
+      kind: SecretProviderClass
+      name: aws-secrets

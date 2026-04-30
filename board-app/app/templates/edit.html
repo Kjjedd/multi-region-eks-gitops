@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}글 수정 — {{ post.title }}{% endblock %}
+{% block content %}
+<h1>글 수정</h1>
+<form method="post" action="/posts/{{ post.id }}/edit" class="post-form">
+  <label>
+    제목
+    <input name="title" maxlength="200" value="{{ post.title }}" required>
+  </label>
+  <label>
+    작성자
+    <input name="author" maxlength="50" value="{{ post.author }}" required>
+  </label>
+  <label>
+    내용
+    <textarea name="content" rows="12" required>{{ post.content }}</textarea>
+  </label>
+  <div class="actions">
+    <button class="btn btn-primary" type="submit">저장</button>
+    <a class="btn btn-ghost" href="/posts/{{ post.id }}">취소</a>
+  </div>
+</form>
+{% endblock %}

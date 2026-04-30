@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+<article class="post">
+  <h1>{{ post.title }}</h1>
+  <p class="meta">
+    <span>작성자 <strong>{{ post.author }}</strong></span>
+    <span>· 작성 {{ post.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</span>
+    {% if post.updated_at and post.updated_at != post.created_at %}
+    <span>· 수정 {{ post.updated_at.strftime("%Y-%m-%d %H:%M:%S") }}</span>
+    {% endif %}
+  </p>
+  <div class="content">{{ post.content }}</div>
+</article>
+
+<div class="actions">
+  <a class="btn" href="/posts/{{ post.id }}/edit">수정</a>
+  <form method="post" action="/posts/{{ post.id }}/delete" onsubmit="return confirm('정말 삭제할까요?');">
+    <button class="btn btn-danger" type="submit">삭제</button>
+  </form>
+  <a class="btn btn-ghost" href="/">목록</a>
+</div>
+{% endblock %}

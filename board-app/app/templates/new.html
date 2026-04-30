@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}새 글 작성{% endblock %}
+{% block content %}
+<h1>새 글 작성</h1>
+<form method="post" action="/posts" class="post-form">
+  <label>
+    제목
+    <input name="title" maxlength="200" required>
+  </label>
+  <label>
+    작성자
+    <input name="author" maxlength="50" required>
+  </label>
+  <label>
+    내용
+    <textarea name="content" rows="12" required></textarea>
+  </label>
+  <div class="actions">
+    <button class="btn btn-primary" type="submit">등록</button>
+    <a class="btn btn-ghost" href="/">취소</a>
+  </div>
+</form>
+{% endblock %}

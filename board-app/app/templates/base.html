@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}board-app{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="brand">board-app</a>
+    <nav>
+      <a href="/posts/new">+ 새 글</a>
+    </nav>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">
+    <span>Served by: <code>{{ region }}</code> / <code>{{ env }}</code></span>
+    <span>Pod: <code>{{ pod }}</code></span>
+    <span>v<code>{{ version }}</code></span>
+  </footer>
+</body>
+</html>

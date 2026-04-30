@@ -1,0 +1,59 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: osaka-staging-eks
+  region: ap-northeast-3
+  version: "1.31"
+  tags:
+    Project: aws13-k8s-proj
+    Owner: team-b
+    Environment: staging
+    ClusterId: cluster-c
+    ManagedBy: eksctl
+
+availabilityZones:
+  - ap-northeast-3a
+  - ap-northeast-3c
+
+vpc:
+  cidr: 10.20.0.0/16
+  nat:
+    gateway: Single
+  clusterEndpoints:
+    publicAccess: true
+    privateAccess: true
+
+managedNodeGroups:
+  - name: staging-ng
+    instanceType: t3.medium
+    desiredCapacity: 1
+    minSize: 1
+    maxSize: 2
+    volumeSize: 30
+    volumeType: gp3
+    privateNetworking: true
+    amiFamily: AmazonLinux2023
+    labels:
+      workload: staging
+      cluster-role: cluster-c
+    tags:
+      Name: osaka-staging-ng
+
+iam:
+  withOIDC: true
+
+cloudWatch:
+  clusterLogging:
+    enableTypes:
+      - api
+      - audit
+      - authenticator
+      - controllerManager
+      - scheduler
+
+addons:
+  - name: vpc-cni
+  - name: coredns
+  - name: kube-proxy
+  - name: aws-ebs-csi-driver

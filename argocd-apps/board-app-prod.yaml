@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: board-app-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kjhappy77/aws13th-K8s-Project.git
+    targetRevision: main
+    path: manifests/board-app/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc   # 서울 prod (로컬 클러스터)
+    namespace: board-app-eks
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,39 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases:
+  - ../../base
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+    target:
+      kind: Deployment
+      name: board-app
+  - patch: |-
+      - op: replace
+        path: /data/APP_ENV
+        value: dr
+      - op: replace
+        path: /data/APP_REGION
+        value: tokyo
+      - op: replace
+        path: /data/DB_HOST
+        value: mysql
+    target:
+      kind: ConfigMap
+      name: board-app-config
+  - patch: |-
+      - op: replace
+        path: /spec/parameters/objects
+        value: |
+          - objectName: 'arn:aws:secretsmanager:ap-northeast-1:109412806537:secret:board-app/tokyo/dr/db-credentials-mBmLpd'
+            objectType: secretsmanager
+            jmesPath:
+              - path: username
+                objectAlias: username
+              - path: password
+                objectAlias: password
+    target:
+      kind: SecretProviderClass
+      name: aws-secrets
