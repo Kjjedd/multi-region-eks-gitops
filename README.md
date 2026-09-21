@@ -13,6 +13,8 @@
 
 ---
 
+> 공개 포트폴리오용 저장소입니다. 계정 ID, ARN, Secret 이름 등 환경 식별자는 템플릿 값으로 처리했으며, 실제 값은 비공개 설정에서 주입합니다.
+
 ## 🎯 프로젝트 개요
 
 AWS 서울, 도쿄, 오사카 3개 리전에 EKS 클러스터를 구축하고, **GitOps 기반의 멀티 리전 운영 환경**과 **DR(Disaster Recovery) 구조**를 구성한 프로젝트입니다.
@@ -99,7 +101,7 @@ VPC CIDR: 10.20.0.0/16
 ```yaml
 APP_REGION: osaka
 APP_ENV: staging
-이미지: 165749212250.dkr.ecr.ap-northeast-3.amazonaws.com/board-app:staging
+이미지: ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-3.amazonaws.com/board-app:staging
 Replicas: 1
 ```
 
@@ -128,7 +130,7 @@ Replicas: 1
 **오사카 TGW 구성 및 서울 연결**
 
 ```
-TGW ID: tgw-0e2f5e743241b365b
+TGW ID: <TRANSIT_GATEWAY_ID>
 Route: 192.168.0.0/16 → seoul-osaka-tgw-peering
 ```
 
@@ -259,18 +261,21 @@ aws eks update-kubeconfig --region ap-northeast-3 --name osaka-staging-eks
 ### 2. 이미지 빌드 및 푸시
 
 ```bash
+# 현재 AWS 계정 확인 (실제 값은 저장소에 기록하지 않음)
+export AWS_ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
+
 # ECR 로그인
 aws ecr get-login-password --region ap-northeast-3 | \
   docker login --username AWS --password-stdin \
-  165749212250.dkr.ecr.ap-northeast-3.amazonaws.com
+  ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-3.amazonaws.com
 
 # 이미지 빌드 및 푸시
 cd board-app
 docker build --platform linux/amd64 -t board-app:staging .
 docker tag board-app:staging \
-  165749212250.dkr.ecr.ap-northeast-3.amazonaws.com/board-app:staging
+  ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-3.amazonaws.com/board-app:staging
 docker push \
-  165749212250.dkr.ecr.ap-northeast-3.amazonaws.com/board-app:staging
+  ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-3.amazonaws.com/board-app:staging
 ```
 
 ### 3. 애플리케이션 배포
