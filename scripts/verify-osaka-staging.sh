@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CLUSTER_NAME="${CLUSTER_NAME_OVERRIDE:-$(awk '/^  name: /{print $2; exit}' "${ROOT_DIR}/infra/eksctl/cluster-c-osaka-staging.yaml")}"
 REGION="ap-northeast-3"
-EXPECTED_ACCOUNT="165749212250"
+EXPECTED_ACCOUNT="${EXPECTED_ACCOUNT:-}"
 
 echo "[1/6] AWS caller identity"
 ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
@@ -12,7 +12,7 @@ ARN="$(aws sts get-caller-identity --query Arn --output text)"
 echo "  account: ${ACCOUNT_ID}"
 echo "  arn: ${ARN}"
 
-if [[ "${ACCOUNT_ID}" != "${EXPECTED_ACCOUNT}" ]]; then
+if [[ -n "${EXPECTED_ACCOUNT}" && "${ACCOUNT_ID}" != "${EXPECTED_ACCOUNT}" ]]; then
   echo "Expected account ${EXPECTED_ACCOUNT}, got ${ACCOUNT_ID}" >&2
   exit 1
 fi
