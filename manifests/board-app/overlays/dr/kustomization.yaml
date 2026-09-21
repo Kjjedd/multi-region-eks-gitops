@@ -27,7 +27,7 @@ patches:
       - op: replace
         path: /spec/parameters/objects
         value: |
-          - objectName: 'arn:aws:secretsmanager:ap-northeast-1:109412806537:secret:board-app/tokyo/dr/db-credentials-mBmLpd'
+          - objectName: '<AWS_SECRETS_MANAGER_SECRET_ARN>'
             objectType: secretsmanager
             jmesPath:
               - path: username
