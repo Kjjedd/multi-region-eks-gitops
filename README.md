@@ -246,6 +246,18 @@ multi-region-eks-gitops/
 
 ---
 
+## 🔒 Public template preflight
+
+This repository uses placeholders for account-specific values. Before applying manifests, create a private overlay and provide values outside Git:
+
+- `AWS_ACCOUNT_ID` for ECR image paths
+- `AWS_SECRETS_MANAGER_SECRET_ARN` for `SecretProviderClass`
+- environment-specific resource IDs such as Transit Gateway
+
+Run `kustomize build` against the private overlay before deployment. The public defaults are intentionally not deployable as-is.
+
+---
+
 ## 🚀 빠른 시작
 
 ### 1. 클러스터 생성
