@@ -16,8 +16,8 @@
 
 ```yaml
 images:
-  - name: 816040392320.dkr.ecr.ap-northeast-2.amazonaws.com/board-app
-    newName: 165749212250.dkr.ecr.ap-northeast-3.amazonaws.com/board-app
+  - name: ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/board-app
+    newName: ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-3.amazonaws.com/board-app
     newTag: staging
 ```
 
@@ -60,7 +60,7 @@ images:
 - op: replace
   path: /spec/parameters/objects
   value: |
-    - objectName: 'arn:aws:secretsmanager:ap-northeast-3:165749212250:secret:board-app/osaka/staging/db-credentials-kMIxst'
+    - objectName: '<AWS_SECRETS_MANAGER_SECRET_ARN>'
       objectType: secretsmanager
       ...
 ```
