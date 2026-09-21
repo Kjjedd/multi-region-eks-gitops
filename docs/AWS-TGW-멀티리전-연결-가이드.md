@@ -113,7 +113,7 @@ curl http://<대상-노드-IP>:8000/healthz
 eksctl create iamidentitymapping \
   --cluster <자기클러스터> \
   --region <자기리전> \
-  --arn arn:aws:iam::816040392320:user/<서울IAM유저> \
+  --arn <AWS_RESOURCE_ARN> \
   --username teamA \
   --group system:masters
 ```
@@ -154,7 +154,7 @@ argocd cluster add <오사카-context> --name osaka-staging-eks
 aws eks update-kubeconfig \
   --region ap-northeast-3 \
   --name osaka-staging-eks \
-  --role-arn arn:aws:iam::<대상계정ID>:role/TeamA-EKS-Access
+  --role-arn <AWS_RESOURCE_ARN>
 ```
 
 ---
