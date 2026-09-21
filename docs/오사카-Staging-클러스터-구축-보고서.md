@@ -85,7 +85,7 @@ APP_REGION: osaka
 APP_ENV: staging
 
 # 이미지
-newName: 165749212250.dkr.ecr.ap-northeast-3.amazonaws.com/board-app
+newName: ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-3.amazonaws.com/board-app
 newTag: staging
 
 # 리소스
