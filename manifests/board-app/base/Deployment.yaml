@@ -24,7 +24,7 @@ spec:
 
       containers:
         - name: board-app-container
-          image: 816040392320.dkr.ecr.ap-northeast-2.amazonaws.com/board-app:1  # ECR  
+          image: ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/board-app:1  # ECR  
           volumeMounts:
             - name: secrets-store
               mountPath: /mnt/secrets
